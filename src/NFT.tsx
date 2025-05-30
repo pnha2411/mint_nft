@@ -14,13 +14,7 @@ const mintFunction = `${projectPackageId}::move_nft::mint_nft`;
 export function MintNFT({ }: { onCreated?: (id: string) => void }) {
   const [txDigest, setTxDigest] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [form, setForm] = useState<{
-    name: string;
-    description: string;
-    receiver: string;
-    imageFile: File | null;
-    url: string;
-  }>({
+  const [form, setForm] = useState<{ name: string; description: string; receiver: string; imageFile: File | null; url: string; }>({
     name: "",
     description: "",
     receiver: "",
@@ -47,22 +41,18 @@ export function MintNFT({ }: { onCreated?: (id: string) => void }) {
       // 1. If the user selected a file, upload it directly via Filebase S3 SDK:
       if (form.imageFile) {
         const file = form.imageFile;
-        const publisherUrl = import.meta.env.VITE_PUBLISHER_URL || "https://publisher.walrus-testnet.walrus.space"; // Make sure this env var is set
+        const publisherUrl = import.meta.env.VITE_PUBLISHER_URL || "https://publisher.walrus-testnet.walrus.space";
         const aggUrl = import.meta.env.VITE_AGG_URL || "https://aggregator.walrus-testnet.walrus.space";
         const epochs = 5;
 
-        const formData = file; // file is already a Blob/File
+        const formData = file;
 
         let response;
         try {
           response = await axios.put(
             `${publisherUrl}/v1/blobs?epochs=${epochs}`,
             formData,
-            {
-              headers: {
-                "Content-Type": file.type || "application/octet-stream",
-              },
-            }
+            { headers: { "Content-Type": file.type || "application/octet-stream" } }
           );
         } catch (uploadErr) {
           console.error("Error uploading to Walrus API:", uploadErr);
@@ -71,11 +61,11 @@ export function MintNFT({ }: { onCreated?: (id: string) => void }) {
           return;
         }
         console.log("Upload response:", response.data);
-        let blodId;        
-        if(!response.data || !response.data.newlyCreated || !response.data.newlyCreated.blobObject) {
+        let blodId;
+        if (!response.data || !response.data.newlyCreated || !response.data.newlyCreated.blobObject) {
           blodId = response.data.alreadyCertified.blobId;
           uploadUrl = `${aggUrl}/v1/blobs/${blodId}`;
-        }else{
+        } else {
           blodId = response.data.newlyCreated.blobObject.blobId;
           uploadUrl = `${aggUrl}/v1/blobs/${blodId}`;
         }
@@ -117,6 +107,26 @@ export function MintNFT({ }: { onCreated?: (id: string) => void }) {
 
   return (
     <Container>
+      {/* Responsive styles for small screens */}
+      <style>{`
+        @media (max-width: 600px) {
+          table {
+            display: block;
+          }
+          table tbody, table tr, table td {
+            display: block;
+            width: 100%;
+          }
+          table td {
+            padding-bottom: 12px;
+          }
+          table td:first-child {
+            text-align: left !important;
+            font-weight: 600;
+          }
+        }
+      `}</style>
+
       <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '12px' }}>
         <tbody>
           <tr>
