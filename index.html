@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sui dApp Starter</title>
+    <title>Suci NFT Kit</title>
 
     <style>
       /*
@@ -55,5 +55,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.global = window;
+      window.process = {
+        env: { DEBUG: undefined },
+      };
+      var exports = {};
+    </script>
   </body>
 </html>

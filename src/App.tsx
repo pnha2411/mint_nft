@@ -1,4 +1,3 @@
-import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import { Box, Container, Flex, Heading } from "@radix-ui/themes";
 import { useState } from "react";
 import * as Tabs from '@radix-ui/react-tabs';
@@ -7,7 +6,6 @@ import {
 } from "./NFT";
 
 function App() {
-  const currentAccount = useCurrentAccount();
   const [activeTab, setActiveTab] = useState<"create" | "transfer" | "swap">("create");
 
   return (
@@ -22,12 +20,7 @@ function App() {
         <Box>
           <Heading>NFT DApp</Heading>
         </Box>
-
-        <Box>
-          <ConnectButton />
-        </Box>
       </Flex>
-
       <Container>
         <Container
           mt="5"
@@ -35,8 +28,7 @@ function App() {
           px="4"
           style={{ background: "var(--gray-a2)", minHeight: 500 }}
         >
-          {currentAccount ? (
-            <Tabs.Root
+          <Tabs.Root
               value={activeTab}
               onValueChange={(value) => setActiveTab(value as typeof activeTab)}
             >
@@ -47,10 +39,7 @@ function App() {
               <Tabs.Content value="create">
                 <MintNFT onCreated={(swordId) => console.log("Created sword:", swordId)} />
               </Tabs.Content>
-            </Tabs.Root>
-          ) : (
-            <Heading>Please connect your wallet</Heading>
-          )}
+          </Tabs.Root>
         </Container>
       </Container>
     </>

@@ -42,9 +42,9 @@ module my_first_package::move_nft{
         name: vector<u8>,
         description: vector<u8>,
         url: vector<u8>,
+        sender: address,
         ctx: &mut TxContext
     ) {
-        let sender = tx_context::sender(ctx);
         let nft = MoveNFT {
             id: object::new(ctx),
             name: string::utf8(name),
