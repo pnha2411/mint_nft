@@ -11,7 +11,7 @@ import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 const projectPackageId = import.meta.env.VITE_PROJECT_NFT_PACKAGE_ID || '0xc9c6b044a878bea54e8c2908fef5e1494a559f638347d3d3841f83b820172168';
 const mintFunction = `${projectPackageId}::move_nft::mint_nft`;
 
-export function MintNFT({ onCreated }: { onCreated?: (id: string) => void }) {
+export function MintNFT({ }: { onCreated?: (id: string) => void }) {
   const [txDigest, setTxDigest] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [form, setForm] = useState<{
